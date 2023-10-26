@@ -17,6 +17,7 @@ const useSyncQuery = (execFunc = () => {}) => {
       name: route.name as string,
       query: {
         ...recordData.value,
+        random: Date.now(),
       },
     });
   };
@@ -48,8 +49,6 @@ const useSyncQuery = (execFunc = () => {}) => {
   const routeQuery = computed(() => route.query);
 
   watch(() => routeQuery.value, (newVal, oldVal) => {
-    console.log('newVal', newVal);
-    console.log('oldVal', oldVal);
     execFuncWhenQueryChange();
   }, {
     deep: true,

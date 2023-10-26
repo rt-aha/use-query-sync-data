@@ -16,6 +16,20 @@
     <div>
       {{ recordData }}
     </div>
+
+    <footer class="footer">
+      footer
+
+      <button @click="pushToSameRoute(1)">
+        push A As 1
+      </button>
+      <button @click="pushToSameRoute(2)">
+        push A As 2
+      </button>
+      <button @click="pushToSameRoute(3)">
+        push A As 3
+      </button>
+    </footer>
   </div>
 </template>
 
@@ -51,9 +65,20 @@ const updateQueryA = () => {
   });
 };
 
+const pushToSameRoute = (num: number) => {
+  router.push({
+    name: 'search',
+    query: {
+      a: num,
+    },
+  });
+};
+
 initDataFromQuery();
 </script>
 
-<style lang="scss" scoped>
-
+<style scoped>
+.footer {
+  background-color: #ccc;
+}
 </style>
