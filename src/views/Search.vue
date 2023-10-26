@@ -14,7 +14,7 @@
       <input v-model="formVal.a">
     </div>
     <div>
-      {{ recordData }}
+      {{ queryData }}
     </div>
 
     <footer class="footer">
@@ -41,11 +41,21 @@ const doWhenQueryChange = () => {
   console.log('doWhenQueryChange');
 };
 
+const rules = {
+  a: (val: any) => {
+    console.log('val', val);
+    if (val) {
+      return true;
+    }
+
+    return false;
+  },
+};
+
 const {
-  initDataFromQuery,
-  recordData,
-  updateRecordData,
-} = useSyncQuery(doWhenQueryChange);
+  updateQueryData,
+  queryData,
+} = useSyncQuery({ a: 1, b: 2 }, rules, doWhenQueryChange);
 
 const router = useRouter();
 const formVal = reactive({
@@ -53,7 +63,7 @@ const formVal = reactive({
 });
 
 const updateFormVal = () => {
-  updateRecordData(formVal);
+  updateQueryData(formVal);
 };
 
 const updateQueryA = () => {
@@ -73,8 +83,6 @@ const pushToSameRoute = (num: number) => {
     },
   });
 };
-
-initDataFromQuery();
 </script>
 
 <style scoped>

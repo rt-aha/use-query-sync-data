@@ -4,33 +4,51 @@ type UseSyncQuery = () => {
 
 };
 
-const useSyncQuery = (execFunc = () => {}) => {
-  const initData = ref({});
-  const recordData = ref({
+const useSyncQuery = (defaultValue: any, rules: any, execFunc = () => {}) => {
+  const defaultQueryData = ref(defaultValue);
+  const queryData = ref({
     a: '0',
   });
+  const validQuery = ref({});
   const route = useRoute();
   const router = useRouter();
+  const validationRules = ref(rules);
 
   const updateQuery = (routerMethod: 'push' | 'replace' = 'push') => {
     router[routerMethod]({
       name: route.name as string,
       query: {
-        ...recordData.value,
+        ...queryData.value,
         random: Date.now(),
       },
     });
   };
 
   const initDataFromQuery = () => {
-    recordData.value = route.query;
+    const keys = Object.keys(defaultQueryData.value);
+
+    keys.forEach((key) => {
+      if (validationRules.value[key]) {
+        const isValid = validationRules.value[key](route.query[key]);
+
+        if (isValid) {
+          queryData.value[key] = route.query[key];
+        }
+        else {
+          queryData.value[key] = defaultQueryData.value[key];
+        }
+      }
+      else {
+        queryData.value[key] = defaultQueryData.value[key];
+      }
+    });
 
     updateQuery('replace');
   };
 
-  const updateRecordData = (val: any) => {
-    recordData.value = {
-      ...recordData.value,
+  const updateQueryData = (val: any) => {
+    queryData.value = {
+      ...queryData.value,
       ...val,
     };
     updateQuery();
@@ -43,23 +61,30 @@ const useSyncQuery = (execFunc = () => {}) => {
 
     execFunc();
 
-    recordData.value.a = a;
+    queryData.value.a = a;
+  };
+
+  const setValidationRules = (rules: any) => {
+    validationRules.value = rules;
+
+    console.log('validationRules.value', validationRules.value);
   };
 
   const routeQuery = computed(() => route.query);
 
-  watch(() => routeQuery.value, (newVal, oldVal) => {
+  watch(() => routeQuery.value, () => {
     execFuncWhenQueryChange();
   }, {
     deep: true,
   });
 
-  return {
-    initData,
-    recordData,
-    initDataFromQuery,
-    updateRecordData,
+  initDataFromQuery();
 
+  return {
+    defaultQueryData,
+    queryData,
+    updateQueryData,
+    setValidationRules,
   };
 };
 
