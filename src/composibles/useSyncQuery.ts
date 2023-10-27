@@ -4,12 +4,9 @@ type UseSyncQuery = () => {
 
 };
 
-const useSyncQuery = (defaultValue: any, rules: any, execFunc = () => {}) => {
+const useSyncQuery = <T>(defaultValue: T, rules: any, execFunc = () => {}) => {
   const defaultQueryData = ref(defaultValue);
-  const queryData = ref({
-    a: '0',
-  });
-  const validQuery = ref({});
+  const queryData = ref<T>(defaultValue);
   const route = useRoute();
   const router = useRouter();
   const validationRules = ref(rules);
@@ -24,7 +21,7 @@ const useSyncQuery = (defaultValue: any, rules: any, execFunc = () => {}) => {
     });
   };
 
-  const initDataFromQuery = () => {
+  const setDataFromQuery = () => {
     const keys = Object.keys(defaultQueryData.value);
 
     keys.forEach((key) => {
@@ -39,9 +36,12 @@ const useSyncQuery = (defaultValue: any, rules: any, execFunc = () => {}) => {
         }
       }
       else {
-        queryData.value[key] = defaultQueryData.value[key];
+        //  若 rule 不需要驗證，直接設置 query
+        queryData.value[key] = route.query[key];
       }
     });
+
+    console.log(queryData.value);
 
     updateQuery('replace');
   };
@@ -59,32 +59,26 @@ const useSyncQuery = (defaultValue: any, rules: any, execFunc = () => {}) => {
       a,
     } = route.query;
 
-    execFunc();
-
-    queryData.value.a = a;
-  };
-
-  const setValidationRules = (rules: any) => {
-    validationRules.value = rules;
-
-    console.log('validationRules.value', validationRules.value);
+    // queryData.value.a = a;
+    console.log('queryData.value', queryData.value);
+    execFunc(queryData.value);
   };
 
   const routeQuery = computed(() => route.query);
 
   watch(() => routeQuery.value, () => {
+    console.log('rq change', route.query);
+    setDataFromQuery();
     execFuncWhenQueryChange();
   }, {
     deep: true,
   });
 
-  initDataFromQuery();
+  setDataFromQuery();
 
   return {
-    defaultQueryData,
     queryData,
     updateQueryData,
-    setValidationRules,
   };
 };
 

@@ -17,6 +17,33 @@
       {{ queryData }}
     </div>
 
+    <div>
+      <n-grid :span="24" :x-gap="24">
+        <n-form-item-gi :span="12" label="Input" path="inputValue">
+          <n-input v-model:value="queryData.inputValue" placeholder="Input" />
+        </n-form-item-gi>
+        <n-form-item-gi :span="12" label="Select" path="selectValue">
+          <n-select
+            v-model:value="queryData.selectValue"
+            placeholder="Select"
+            :options="generalOptions"
+          />
+        </n-form-item-gi>
+      </n-grid>
+    </div>
+
+    <div>
+      <button @click="changePageIndex(1)">
+        1
+      </button>
+      <button @click="changePageIndex(2)">
+        2
+      </button>
+      <button @click="changePageIndex(3)">
+        3
+      </button>
+    </div>
+
     <footer class="footer">
       footer
 
@@ -37,14 +64,30 @@
 import { useRouter } from 'vue-router';
 import useSyncQuery from '@/composibles/useSyncQuery';
 
-const doWhenQueryChange = () => {
-  console.log('doWhenQueryChange');
-};
+// const model = ref({
+//   inputValue: null,
+//   selectValue: null,
+//   pageIndex: 1,
+// });
+
+const options = ['apple', 'banana', 'orange'];
+const generalOptions = options.map(
+  v => ({
+    label: v,
+    value: v,
+  }),
+);
 
 const rules = {
-  a: (val: any) => {
-    console.log('val', val);
+  inputValue: (val: any) => {
     if (val) {
+      return true;
+    }
+
+    return false;
+  },
+  selectValue: (val: any) => {
+    if (options.includes(val)) {
       return true;
     }
 
@@ -52,10 +95,14 @@ const rules = {
   },
 };
 
+const doWhenQueryChange = (newQueryData) => {
+  console.log('doWhenQueryChange', newQueryData);
+};
+
 const {
   updateQueryData,
   queryData,
-} = useSyncQuery({ a: 1, b: 2 }, rules, doWhenQueryChange);
+} = useSyncQuery({ inputValue: '', selectValue: '' }, rules, doWhenQueryChange);
 
 const router = useRouter();
 const formVal = reactive({
@@ -63,7 +110,7 @@ const formVal = reactive({
 });
 
 const updateFormVal = () => {
-  updateQueryData(formVal);
+  updateQueryData({ pageIndex: 1 });
 };
 
 const updateQueryA = () => {
@@ -73,6 +120,10 @@ const updateQueryA = () => {
       a: String(Date.now()),
     },
   });
+};
+
+const changePageIndex = (num: number) => {
+  updateQueryData({ pageIndex: num });
 };
 
 const pushToSameRoute = (num: number) => {
