@@ -15,6 +15,10 @@
     </div>
     <div>
       {{ queryData }}
+
+      <pre>
+        {{ beautifyQueryData }}
+      </pre>
     </div>
 
     <div>
@@ -99,10 +103,26 @@ const doWhenQueryChange = (newQueryData) => {
   console.log('doWhenQueryChange', newQueryData);
 };
 
+const formatDataBeforeUpdate = (value) => {
+  return value;
+};
+
+// rangeData: [0, 0]
+const defaultValue = { inputValue: '', selectValue: '', rangeData: [0, 0], person: { name: 'Allen', age: 30 }, pageIndex: 1 };
+
+const fnOptions = {
+  doWhenQueryChange,
+  formatDataBeforeUpdate,
+};
+
 const {
   updateQueryData,
   queryData,
-} = useSyncQuery({ inputValue: '', selectValue: '' }, rules, doWhenQueryChange);
+} = useSyncQuery(defaultValue, rules, fnOptions);
+
+const beautifyQueryData = computed(() => {
+  return JSON.stringify(toRaw(queryData.value), null, '\t');
+});
 
 const router = useRouter();
 const formVal = reactive({
