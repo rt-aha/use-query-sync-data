@@ -90,6 +90,7 @@ const defaultQueryData = {
   person: {
     name: 'Allen',
     age: 30,
+    marriage: true,
   },
   pageIndex: 1,
   switchValue: true,
