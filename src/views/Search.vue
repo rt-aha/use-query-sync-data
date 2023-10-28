@@ -99,20 +99,32 @@ const rules = {
   },
 };
 
-const doWhenQueryChange = (newQueryData) => {
+const doWhenQueryChange = (newQueryData: object) => {
   console.log('doWhenQueryChange', newQueryData);
 };
 
-const formatDataBeforeUpdate = (value) => {
-  return value;
-};
+const a = ref<Record<string, number>>({ a: 1 });
+console.log(a);
+
+// const formatDataBeforeUpdate = (value: object): object => {
+//   return value;
+// };
 
 // rangeData: [0, 0]
-const defaultValue = { inputValue: '', selectValue: '', rangeData: [0, 0], person: { name: 'Allen', age: 30 }, pageIndex: 1 };
+const defaultValue = {
+  inputValue: '',
+  selectValue: '',
+  rangeData: [0, 0],
+  person: {
+    name: 'Allen',
+    age: 30,
+  },
+  pageIndex: 1,
+};
 
 const fnOptions = {
   doWhenQueryChange,
-  formatDataBeforeUpdate,
+  // formatDataBeforeUpdate,
 };
 
 const {
