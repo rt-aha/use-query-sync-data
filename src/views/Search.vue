@@ -67,6 +67,7 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import useSyncQuery from '@/composibles/useSyncQuery';
+import type { Rules } from '@/shared/types';
 
 // const model = ref({
 //   inputValue: null,
@@ -81,23 +82,6 @@ const generalOptions = options.map(
     value: v,
   }),
 );
-
-const rules = {
-  inputValue: (val: any) => {
-    if (val) {
-      return true;
-    }
-
-    return false;
-  },
-  selectValue: (val: any) => {
-    if (options.includes(val)) {
-      return true;
-    }
-
-    return false;
-  },
-};
 
 const doWhenQueryChange = (newQueryData: object) => {
   console.log('doWhenQueryChange', newQueryData);
@@ -120,6 +104,33 @@ const defaultValue = {
     age: 30,
   },
   pageIndex: 1,
+};
+
+type DefaultValue = typeof defaultValue;
+// type RulesKey = Partial<keyof DefaultValue>;
+
+// type Rules<T> = {
+//   [Key in keyof T]?: (val: T[Key]) => boolean
+// };
+
+// [Key in RulesKey]?: (val: DefaultValue[Key]) => boolean
+// Record<[Key in RulesKey] (val: DefaultValue[Key])=> boolean>
+
+const rules: Rules<DefaultValue> = {
+  inputValue: (val) => {
+    if (val) {
+      return true;
+    }
+
+    return false;
+  },
+  selectValue: (val) => {
+    if (options.includes(val)) {
+      return true;
+    }
+
+    return false;
+  },
 };
 
 const fnOptions = {

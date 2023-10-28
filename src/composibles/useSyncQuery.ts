@@ -1,12 +1,13 @@
 import { cloneDeep, isObjectLike } from 'lodash-es';
 import type { LocationQueryRaw } from 'vue-router';
 import { useRoute, useRouter } from 'vue-router';
+import type { Rules } from '@/shared/types';
 
 type RouteMethod = 'push' | 'replace';
 
-const useSyncQuery = <T extends Record<string, unknown>, K extends keyof T>(
+const useSyncQuery = <T extends Record<string, any>, K extends keyof T>(
   defaultValue: T,
-  rules: Record<K, (val: T[K]) => boolean>,
+  rules: Rules<T>,
   options: {
     doWhenQueryChange?: (queryData: T) => void
   },
@@ -67,11 +68,9 @@ const useSyncQuery = <T extends Record<string, unknown>, K extends keyof T>(
       ...val,
     };
 
-    console.log('queryData.value', queryData.value);
     updateQuery();
   };
 
-  // parsed query string which has been stringify
   const handleQueryToData = () => {
     const data = queryDataKeys.reduce((obj, key: K) => {
       const currVal = queryData.value[key];
@@ -90,7 +89,6 @@ const useSyncQuery = <T extends Record<string, unknown>, K extends keyof T>(
   };
 
   const execFuncWhenQueryChange = () => {
-    // queryData.value.a = a;
     handleQueryToData();
 
     if (options.doWhenQueryChange) {
