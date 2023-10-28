@@ -2,17 +2,11 @@
   <div class="">
     search
     <div>
-      <button @click="updateQueryA">
-        updateQueryA
+      <button @click="updatePageIndex">
+        updatePageIndex
       </button>
+    </div>
 
-      <button @click="updateFormVal">
-        updateFormVal
-      </button>
-    </div>
-    <div>
-      <input v-model="formVal.a">
-    </div>
     <div>
       {{ queryData }}
 
@@ -69,25 +63,15 @@ import { useRouter } from 'vue-router';
 import useSyncQuery from '@/composibles/useSyncQuery';
 import type { Rules } from '@/shared/types';
 
-// const model = ref({
-//   inputValue: null,
-//   selectValue: null,
-//   pageIndex: 1,
-// });
-
-const options = ['apple', 'banana', 'orange'];
-const generalOptions = options.map(
+const opts = ['apple', 'banana', 'orange'];
+const generalOptions = opts.map(
   v => ({
     label: v,
     value: v,
   }),
 );
 
-const doWhenQueryChange = (newQueryData: object) => {
-  console.log('doWhenQueryChange', newQueryData);
-};
-
-const defaultValue = {
+const defaultQueryData = {
   inputValue: '',
   selectValue: '',
   rangeData: [0, 0],
@@ -99,7 +83,9 @@ const defaultValue = {
   isSearch: true,
 };
 
-const rules: Rules<typeof defaultValue> = {
+type QueryData = typeof defaultQueryData;
+
+const rules: Rules<QueryData> = {
   inputValue: (val) => {
     if (val) {
       return true;
@@ -108,7 +94,7 @@ const rules: Rules<typeof defaultValue> = {
     return false;
   },
   selectValue: (val) => {
-    if (options.includes(val)) {
+    if (opts.includes(val)) {
       return true;
     }
 
@@ -116,36 +102,23 @@ const rules: Rules<typeof defaultValue> = {
   },
 };
 
-const fnOptions = {
-  doWhenQueryChange,
-  // formatDataBeforeUpdate,
+const queryChangeCallback = (newQueryData: QueryData) => {
+  console.log('queryChangeCallback', newQueryData);
 };
 
 const {
   updateQueryData,
   queryData,
-} = useSyncQuery(defaultValue, rules, fnOptions);
+} = useSyncQuery(defaultQueryData, rules, { queryChangeCallback });
 
 const beautifyQueryData = computed(() => {
   return JSON.stringify(toRaw(queryData.value), null, '\t');
 });
 
 const router = useRouter();
-const formVal = reactive({
-  a: 2,
-});
 
-const updateFormVal = () => {
+const updatePageIndex = () => {
   updateQueryData({ pageIndex: 1 });
-};
-
-const updateQueryA = () => {
-  router.push({
-    name: 'search',
-    query: {
-      a: String(Date.now()),
-    },
-  });
 };
 
 const changePageIndex = (num: number) => {

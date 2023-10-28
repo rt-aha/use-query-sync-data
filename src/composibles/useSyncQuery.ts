@@ -3,24 +3,22 @@ import type { LocationQueryRaw } from 'vue-router';
 import { useRoute, useRouter } from 'vue-router';
 import type { Rules } from '@/shared/types';
 
-type RouteMethod = 'push' | 'replace';
-
 const useSyncQuery = <T extends Record<string, any>, K extends keyof T>(
-  defaultValue: T,
+  defaultQueryData: T,
   rules: Rules<T>,
   options: {
-    doWhenQueryChange?: (queryData: T) => void
-  },
+    queryChangeCallback?: (queryData: T) => void
+  } = {},
 ): { queryData: Ref<T>
     updateQueryData: (val: Record<string, unknown>) => void
   } => {
-  const queryData = ref<T>(cloneDeep(defaultValue)) as Ref<T>;
+  const queryData = ref<T>(cloneDeep(defaultQueryData)) as Ref<T>;
   const route = useRoute();
   const router = useRouter();
 
-  const queryDataKeys = Object.keys(defaultValue) as K[];
+  const queryDataKeys = Object.keys(defaultQueryData) as K[];
 
-  const updateQuery = (routerMethod: RouteMethod = 'push') => {
+  const updateQuery = (routerMethod: 'push' | 'replace' = 'push') => {
     const query: LocationQueryRaw = queryDataKeys.reduce((obj, key: K) => {
       const currVal = queryData.value[key];
       if (typeof currVal !== 'string') {
@@ -49,11 +47,11 @@ const useSyncQuery = <T extends Record<string, any>, K extends keyof T>(
           queryData.value[key] = routeQueryValue;
         }
         else {
-          queryData.value[key] = defaultValue[key];
+          queryData.value[key] = defaultQueryData[key];
         }
       }
       else {
-        queryData.value[key] = routeQueryValue || defaultValue[key];
+        queryData.value[key] = routeQueryValue || defaultQueryData[key];
       }
     });
 
@@ -72,9 +70,9 @@ const useSyncQuery = <T extends Record<string, any>, K extends keyof T>(
   const handleQueryToData = () => {
     const data = queryDataKeys.reduce((obj, key: K) => {
       const currVal = queryData.value[key];
-      const defaultVal = defaultValue[key];
+      const defaultVal = defaultQueryData[key];
 
-      if (isObjectLike(defaultValue[key]) && typeof defaultVal === 'string') {
+      if (isObjectLike(defaultQueryData[key]) && typeof defaultVal === 'string') {
         obj[key] = JSON.parse(currVal as string);
       }
       else if (typeof defaultVal === 'number') {
@@ -96,8 +94,8 @@ const useSyncQuery = <T extends Record<string, any>, K extends keyof T>(
   const execFuncWhenQueryChange = () => {
     handleQueryToData();
 
-    if (options.doWhenQueryChange) {
-      options.doWhenQueryChange(queryData.value);
+    if (options.queryChangeCallback) {
+      options.queryChangeCallback(queryData.value);
     }
   };
 
@@ -111,8 +109,6 @@ const useSyncQuery = <T extends Record<string, any>, K extends keyof T>(
   watch(() => routeQuery.value, () => {
     setDataFromQuery();
     execFuncWhenQueryChange();
-  }, {
-    deep: true,
   });
 
   init();
