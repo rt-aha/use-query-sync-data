@@ -46,7 +46,6 @@ const useSyncQuery = <T extends Record<string, any>, K extends keyof T>(
         const isValid = rules[key](routeQueryValue);
 
         if (isValid) {
-          // ...
           queryData.value[key] = routeQueryValue;
         }
         else {
@@ -54,7 +53,6 @@ const useSyncQuery = <T extends Record<string, any>, K extends keyof T>(
         }
       }
       else {
-        //  若 rule 不需要驗證，直接設置 query
         queryData.value[key] = routeQueryValue || defaultValue[key];
       }
     });
@@ -74,16 +72,23 @@ const useSyncQuery = <T extends Record<string, any>, K extends keyof T>(
   const handleQueryToData = () => {
     const data = queryDataKeys.reduce((obj, key: K) => {
       const currVal = queryData.value[key];
+      const defaultVal = defaultValue[key];
 
-      if (isObjectLike(defaultValue[key]) && typeof currVal === 'string') {
+      if (isObjectLike(defaultValue[key]) && typeof defaultVal === 'string') {
         obj[key] = JSON.parse(currVal as string);
+      }
+      else if (typeof defaultVal === 'number') {
+        obj[key] = +currVal;
+      }
+      else if (typeof defaultVal === 'boolean') {
+        obj[key] = Boolean(currVal);
       }
       else {
         obj[key] = currVal;
       }
 
       return obj;
-    }, {} as T);
+    }, {} as any);
 
     queryData.value = data;
   };

@@ -87,14 +87,6 @@ const doWhenQueryChange = (newQueryData: object) => {
   console.log('doWhenQueryChange', newQueryData);
 };
 
-const a = ref<Record<string, number>>({ a: 1 });
-console.log(a);
-
-// const formatDataBeforeUpdate = (value: object): object => {
-//   return value;
-// };
-
-// rangeData: [0, 0]
 const defaultValue = {
   inputValue: '',
   selectValue: '',
@@ -104,19 +96,10 @@ const defaultValue = {
     age: 30,
   },
   pageIndex: 1,
+  isSearch: true,
 };
 
-type DefaultValue = typeof defaultValue;
-// type RulesKey = Partial<keyof DefaultValue>;
-
-// type Rules<T> = {
-//   [Key in keyof T]?: (val: T[Key]) => boolean
-// };
-
-// [Key in RulesKey]?: (val: DefaultValue[Key]) => boolean
-// Record<[Key in RulesKey] (val: DefaultValue[Key])=> boolean>
-
-const rules: Rules<DefaultValue> = {
+const rules: Rules<typeof defaultValue> = {
   inputValue: (val) => {
     if (val) {
       return true;
