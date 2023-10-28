@@ -27,6 +27,17 @@
             :options="generalOptions"
           />
         </n-form-item-gi>
+        <n-form-item-gi :span="12" label="Radio" path="language">
+          <n-radio-group v-model:value="queryData.language">
+            <n-space>
+              <n-radio label="English" value="English" />
+              <n-radio label="Chinese" value="Chinese" />
+            </n-space>
+          </n-radio-group>
+        </n-form-item-gi>
+        <n-form-item-gi :span="12" label="Switch" path="switchValue">
+          <n-switch v-model:value="queryData.switchValue" />
+        </n-form-item-gi>
       </n-grid>
     </div>
 
@@ -64,6 +75,7 @@ import useSyncQuery from '@/composibles/useSyncQuery';
 import type { Rules } from '@/shared/types';
 
 const opts = ['apple', 'banana', 'orange'];
+const langOpts = ['English', 'Chinese'];
 const generalOptions = opts.map(
   v => ({
     label: v,
@@ -80,7 +92,8 @@ const defaultQueryData = {
     age: 30,
   },
   pageIndex: 1,
-  isSearch: true,
+  switchValue: true,
+  language: 'English',
 };
 
 type QueryData = typeof defaultQueryData;
@@ -100,6 +113,15 @@ const rules: Rules<QueryData> = {
 
     return false;
   },
+
+  language: (val) => {
+    if (langOpts.includes(val)) {
+      return true;
+    }
+
+    return false;
+  },
+
 };
 
 const queryChangeCallback = (newQueryData: QueryData) => {

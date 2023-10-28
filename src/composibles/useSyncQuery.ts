@@ -15,7 +15,6 @@ const useSyncQuery = <T extends Record<string, any>, K extends keyof T>(
   const queryData = ref<T>(cloneDeep(defaultQueryData)) as Ref<T>;
   const route = useRoute();
   const router = useRouter();
-
   const queryDataKeys = Object.keys(defaultQueryData) as K[];
 
   const updateQuery = (routerMethod: 'push' | 'replace' = 'push') => {
@@ -72,14 +71,17 @@ const useSyncQuery = <T extends Record<string, any>, K extends keyof T>(
       const currVal = queryData.value[key];
       const defaultVal = defaultQueryData[key];
 
-      if (isObjectLike(defaultQueryData[key]) && typeof defaultVal === 'string') {
+      if (isObjectLike(defaultQueryData[key]) && typeof currVal === 'string') {
+        console.log('currVal', currVal);
         obj[key] = JSON.parse(currVal as string);
       }
       else if (typeof defaultVal === 'number') {
         obj[key] = +currVal;
       }
       else if (typeof defaultVal === 'boolean') {
-        obj[key] = Boolean(currVal);
+        // As currVal are always be string, manually compare string 'true' here
+        const isTrue = currVal === 'true';
+        obj[key] = Boolean(isTrue);
       }
       else {
         obj[key] = currVal;
@@ -99,17 +101,17 @@ const useSyncQuery = <T extends Record<string, any>, K extends keyof T>(
     }
   };
 
-  const init = () => {
-    setDataFromQuery();
-    handleQueryToData();
-  };
-
   const routeQuery = computed(() => route.query);
 
   watch(() => routeQuery.value, () => {
     setDataFromQuery();
     execFuncWhenQueryChange();
   });
+
+  const init = () => {
+    setDataFromQuery();
+    handleQueryToData();
+  };
 
   init();
 
