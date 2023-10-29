@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(),
   routes: [
     {
       path: '/',
@@ -27,44 +27,8 @@ const router = createRouter({
         title: '首頁',
       },
     },
-    {
-      path: '/fake',
-      name: 'fake',
-      component: () => import('@/views/Fake.vue'),
-      meta: {
-        title: '首頁',
-      },
-    },
 
   ],
-});
-
-export const routeNameMapping = (() => {
-  const allRoutes = router.getRoutes();
-
-  const mapping = allRoutes.reduce((obj, item) => {
-    const routeName: string = item.name as string;
-
-    if (routeName) {
-      obj[routeName] = item.meta.title as string;
-    }
-
-    return obj;
-  }, {} as Record<string, string>);
-
-  return mapping;
-})();
-
-router.beforeEach((_to, _from, next) => {
-  const scrollEle = document.querySelector('#app');
-  if (scrollEle) {
-    scrollEle.scrollTo({
-      top: 0,
-      left: 0,
-    });
-  }
-
-  next();
 });
 
 export default router;

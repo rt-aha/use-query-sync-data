@@ -3,7 +3,7 @@ import type { LocationQueryRaw } from 'vue-router';
 import { useRoute, useRouter } from 'vue-router';
 import type { Rules, UpdateQueryData } from '@/shared/types';
 
-const useSyncQuery = <T extends Record<string, any>, K extends keyof T>(
+const useQuerySyncData = <T extends Record<string, any>, K extends keyof T>(
   defaultQueryData: T,
   rules: Rules<T>,
   options: {
@@ -149,4 +149,4 @@ const useSyncQuery = <T extends Record<string, any>, K extends keyof T>(
   };
 };
 
-export default useSyncQuery;
+export default useQuerySyncData;

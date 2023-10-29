@@ -25,10 +25,7 @@
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
     "update-version": "node updateVersion.mjs",
-    "tui": "sh tui.sh",
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "tui": "sh tui.sh"
   },
   "dependencies": {
     "@vueuse/core": "^10.5.0",
