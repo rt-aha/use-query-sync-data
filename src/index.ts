@@ -1,3 +1,4 @@
+import 'vue-router';
 import useQuerySyncData from '@/composables/useQuerySyncData';
 import type { Rules, UpdateQueryData } from '@/shared/types';
 

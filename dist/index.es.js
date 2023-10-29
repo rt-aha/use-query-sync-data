@@ -1,4 +1,38 @@
 import { inject, ref, computed, watch, onMounted } from "vue";
+/*!
+  * vue-router v4.2.5
+  * (c) 2023 Eduardo San Martin Morote
+  * @license MIT
+  */
+var NavigationType;
+(function(NavigationType2) {
+  NavigationType2["pop"] = "pop";
+  NavigationType2["push"] = "push";
+})(NavigationType || (NavigationType = {}));
+var NavigationDirection;
+(function(NavigationDirection2) {
+  NavigationDirection2["back"] = "back";
+  NavigationDirection2["forward"] = "forward";
+  NavigationDirection2["unknown"] = "";
+})(NavigationDirection || (NavigationDirection = {}));
+Symbol(process.env.NODE_ENV !== "production" ? "navigation failure" : "");
+var NavigationFailureType;
+(function(NavigationFailureType2) {
+  NavigationFailureType2[NavigationFailureType2["aborted"] = 4] = "aborted";
+  NavigationFailureType2[NavigationFailureType2["cancelled"] = 8] = "cancelled";
+  NavigationFailureType2[NavigationFailureType2["duplicated"] = 16] = "duplicated";
+})(NavigationFailureType || (NavigationFailureType = {}));
+Symbol(process.env.NODE_ENV !== "production" ? "router view location matched" : "");
+Symbol(process.env.NODE_ENV !== "production" ? "router view depth" : "");
+const routerKey = Symbol(process.env.NODE_ENV !== "production" ? "router" : "");
+const routeLocationKey = Symbol(process.env.NODE_ENV !== "production" ? "route location" : "");
+Symbol(process.env.NODE_ENV !== "production" ? "router view location" : "");
+function useRouter() {
+  return inject(routerKey);
+}
+function useRoute() {
+  return inject(routeLocationKey);
+}
 var freeGlobal = typeof global == "object" && global && global.Object === Object && global;
 const freeGlobal$1 = freeGlobal;
 var freeSelf = typeof self == "object" && self && self.Object === Object && self;
@@ -799,40 +833,6 @@ function cloneDeep(value) {
 }
 function isNull(value) {
   return value === null;
-}
-/*!
-  * vue-router v4.2.5
-  * (c) 2023 Eduardo San Martin Morote
-  * @license MIT
-  */
-var NavigationType;
-(function(NavigationType2) {
-  NavigationType2["pop"] = "pop";
-  NavigationType2["push"] = "push";
-})(NavigationType || (NavigationType = {}));
-var NavigationDirection;
-(function(NavigationDirection2) {
-  NavigationDirection2["back"] = "back";
-  NavigationDirection2["forward"] = "forward";
-  NavigationDirection2["unknown"] = "";
-})(NavigationDirection || (NavigationDirection = {}));
-Symbol(process.env.NODE_ENV !== "production" ? "navigation failure" : "");
-var NavigationFailureType;
-(function(NavigationFailureType2) {
-  NavigationFailureType2[NavigationFailureType2["aborted"] = 4] = "aborted";
-  NavigationFailureType2[NavigationFailureType2["cancelled"] = 8] = "cancelled";
-  NavigationFailureType2[NavigationFailureType2["duplicated"] = 16] = "duplicated";
-})(NavigationFailureType || (NavigationFailureType = {}));
-Symbol(process.env.NODE_ENV !== "production" ? "router view location matched" : "");
-Symbol(process.env.NODE_ENV !== "production" ? "router view depth" : "");
-const routerKey = Symbol(process.env.NODE_ENV !== "production" ? "router" : "");
-const routeLocationKey = Symbol(process.env.NODE_ENV !== "production" ? "route location" : "");
-Symbol(process.env.NODE_ENV !== "production" ? "router view location" : "");
-function useRouter() {
-  return inject(routerKey);
-}
-function useRoute() {
-  return inject(routeLocationKey);
 }
 const useQuerySyncData = (defaultQueryData, rules, options = {}) => {
   const route = useRoute();
