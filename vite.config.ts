@@ -105,7 +105,7 @@ export default ({ mode }) => {
     build: {
       lib: {
         entry: './src/index.ts',
-        name: 're-time-picker',
+        name: 'use-query-sync-data',
         formats: ['es'],
         fileName: format => `index.${format}.js`,
       },

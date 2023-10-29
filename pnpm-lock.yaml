@@ -20,6 +20,9 @@ dependencies:
   plop:
     specifier: ^4.0.0
     version: 4.0.0
+  use-query-sync-data:
+    specifier: 0.0.2-alpha
+    version: 0.0.2-alpha(typescript@5.2.2)
   vue:
     specifier: ^3.3.4
     version: 3.3.7(typescript@5.2.2)
@@ -5052,6 +5055,21 @@ packages:
     dependencies:
       punycode: 2.3.0
     dev: true
+
+  /use-query-sync-data@0.0.2-alpha(typescript@5.2.2):
+    resolution: {integrity: sha512-VWUID7CIN/RQfM/oiyUWn1UA3BCV6Q3SU8tvpcNyTVSVyWBOxGotNY1Vy7CgY+KTSDItUB151CpRGAQ2W/5Nww==}
+    dependencies:
+      '@vueuse/core': 10.5.0(vue@3.3.7)
+      dayjs: 1.11.10
+      lodash-es: 4.17.21
+      naive-ui: 2.35.0(vue@3.3.7)
+      plop: 4.0.0
+      vue: 3.3.7(typescript@5.2.2)
+      vue-router: 4.2.5(vue@3.3.7)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - typescript
+    dev: false
 
   /util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
