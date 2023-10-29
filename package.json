@@ -1,9 +1,15 @@
 {
   "name": "use-query-sync-data",
-  "version": "0.0.25-beta04",
+  "version": "0.0.1-alpha",
   "license": "ISC",
   "author": "Ray Tsai",
   "description": "A composition API that sync url query to data.",
+  "homepage": "https://github.com/rt-aha/use-query-sync-data",
+  "bugs": "https://github.com/rt-aha/use-query-sync-data/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rt-aha/use-query-sync-data"
+  },
   "private": false,
   "type": "module",
   "module": "./dist/index.es.js",
