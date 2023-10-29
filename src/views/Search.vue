@@ -101,7 +101,7 @@ import { useRoute, useRouter } from 'vue-router';
 
 // import useQuerySyncData from '@/composables/useQuerySyncData';
 
-import useQuerySyncData from 'use-query-sync-data';
+import useQuerySyncData from '@/package/dist/index.es.js';
 import type { Rules } from '@/shared/types';
 
 const route = useRoute();
