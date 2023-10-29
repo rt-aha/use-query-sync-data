@@ -1,7 +1,7 @@
 import { cloneDeep, isNull, isObjectLike } from 'lodash-es';
 import type { LocationQueryRaw } from 'vue-router';
 import { useRoute, useRouter } from 'vue-router';
-import type { Rules } from '@/shared/types';
+import type { Rules, UpdateQueryData } from '@/shared/types';
 
 const useSyncQuery = <T extends Record<string, any>, K extends keyof T>(
   defaultQueryData: T,
@@ -13,7 +13,7 @@ const useSyncQuery = <T extends Record<string, any>, K extends keyof T>(
   } = {},
 ): {
     queryData: Ref<T>
-    updateQueryData: (val: Record<string, unknown>) => void
+    updateQueryData: (val: UpdateQueryData<T>) => void
   } => {
   const route = useRoute();
   const router = useRouter();
@@ -63,7 +63,7 @@ const useSyncQuery = <T extends Record<string, any>, K extends keyof T>(
     updateQuery('replace');
   };
 
-  const updateQueryData = (val: Record<string, unknown>) => {
+  const updateQueryData = (val: UpdateQueryData<T>) => {
     queryData.value = {
       ...queryData.value,
       ...val,
@@ -72,13 +72,23 @@ const useSyncQuery = <T extends Record<string, any>, K extends keyof T>(
     updateQuery();
   };
 
+  const parsedValue = (val: string, key: K) => {
+    try {
+      const parsedData = JSON.parse(val as string);
+      return parsedData;
+    }
+    catch {
+      return defaultQueryData[key];
+    }
+  };
+
   const handleQueryToData = () => {
     const data = queryDataKeys.reduce((obj, key: K) => {
       const currVal = queryData.value[key];
       const defaultVal = defaultQueryData[key];
 
       if (isObjectLike(defaultQueryData[key]) && typeof currVal === 'string') {
-        obj[key] = JSON.parse(currVal as string);
+        obj[key] = parsedValue(currVal, key);
       }
       else if (isNull(defaultVal)) {
         obj[key] = null;
@@ -87,7 +97,6 @@ const useSyncQuery = <T extends Record<string, any>, K extends keyof T>(
         obj[key] = +currVal;
       }
       else if (typeof defaultVal === 'boolean') {
-        // As currVal are always be string, manually compare string 'true' here
         const isTrue = currVal === 'true';
         obj[key] = Boolean(isTrue);
       }
