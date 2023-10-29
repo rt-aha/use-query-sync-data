@@ -6,6 +6,9 @@
         updatePageIndex
       </button>
     </div>
+    <router-link :to="{ name: 'fake', query: { un: undefined } }">
+      to fake with undefined query
+    </router-link>
 
     <div>
       {{ queryData }}
@@ -19,6 +22,12 @@
       <n-grid :span="24" :x-gap="24">
         <n-form-item-gi :span="12" label="Input" path="inputValue">
           <n-input v-model:value="queryData.inputValue" placeholder="Input" />
+        </n-form-item-gi>
+        <n-form-item-gi :span="12" label="Input" path="nullValue">
+          <n-input v-model:value="queryData.nullValue" placeholder="Input" />
+        </n-form-item-gi>
+        <n-form-item-gi :span="12" label="Input" path="undefinedValue">
+          <n-input v-model:value="queryData.undefinedValue" placeholder="Input" />
         </n-form-item-gi>
         <n-form-item-gi :span="12" label="Select" path="selectValue">
           <n-select
@@ -95,6 +104,7 @@ const defaultQueryData = {
   pageIndex: 1,
   switchValue: true,
   language: 'English',
+  nullValue: null,
 };
 
 type QueryData = typeof defaultQueryData;

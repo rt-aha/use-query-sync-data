@@ -1,4 +1,4 @@
-import { cloneDeep, isObjectLike } from 'lodash-es';
+import { cloneDeep, isNull, isObjectLike } from 'lodash-es';
 import type { LocationQueryRaw } from 'vue-router';
 import { useRoute, useRouter } from 'vue-router';
 import type { Rules } from '@/shared/types';
@@ -71,9 +71,14 @@ const useSyncQuery = <T extends Record<string, any>, K extends keyof T>(
       const currVal = queryData.value[key];
       const defaultVal = defaultQueryData[key];
 
+      console.log('%cisNull -->', 'color: #059669; background-color: #D1FAE5', isNull(defaultVal));
+
       if (isObjectLike(defaultQueryData[key]) && typeof currVal === 'string') {
         console.log('currVal', currVal);
         obj[key] = JSON.parse(currVal as string);
+      }
+      else if (isNull(defaultVal)) {
+        obj[key] = null;
       }
       else if (typeof defaultVal === 'number') {
         obj[key] = +currVal;
