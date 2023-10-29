@@ -838,7 +838,7 @@ const useQuerySyncData = (defaultQueryData, rules, options = {}) => {
   const route = useRoute();
   const router = useRouter();
   const queryData = ref(cloneDeep(defaultQueryData));
-  const currPage = ref(route.name);
+  const currPage = ref(route == null ? void 0 : route.name);
   const queryDataKeys = Object.keys(defaultQueryData);
   const updateQuery = (routerMethod = "push") => {
     const query = queryDataKeys.reduce((obj, key) => {

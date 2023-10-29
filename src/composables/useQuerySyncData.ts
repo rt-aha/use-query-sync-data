@@ -18,7 +18,7 @@ const useQuerySyncData = <T extends Record<string, any>, K extends keyof T>(
   const route = useRoute();
   const router = useRouter();
   const queryData = ref<T>(cloneDeep(defaultQueryData)) as Ref<T>;
-  const currPage = ref(route.name) as Ref<string>;
+  const currPage = ref(route?.name) as Ref<string>;
   const queryDataKeys = Object.keys(defaultQueryData) as K[];
 
   const updateQuery = (routerMethod: 'push' | 'replace' = 'push') => {
