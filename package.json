@@ -1,9 +1,9 @@
 {
-  "name": "use-search-by-query",
+  "name": "use-query-sync-data",
   "version": "0.0.25-beta04",
   "license": "ISC",
   "author": "Ray Tsai",
-  "description": "A composition API that can sync your query from url and value in vue base on Vue 3 with typescript",
+  "description": "A composition API that can sync your query from url to data.",
   "private": false,
   "type": "module",
   "module": "./dist/index.es.js",

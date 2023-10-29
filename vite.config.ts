@@ -106,6 +106,7 @@ export default ({ mode }) => {
       lib: {
         entry: './src/index.ts',
         name: 're-time-picker',
+        formats: ['es'],
         fileName: format => `index.${format}.js`,
       },
       rollupOptions: {

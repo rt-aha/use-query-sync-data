@@ -29,9 +29,7 @@
         <n-form-item-gi :span="12" label="Input" path="nullValue">
           <n-input v-model:value="queryData.nullValue" placeholder="Input" />
         </n-form-item-gi>
-        <n-form-item-gi :span="12" label="Input" path="undefinedValue">
-          <n-input v-model:value="queryData.undefinedValue" placeholder="Input" />
-        </n-form-item-gi>
+
         <n-form-item-gi :span="12" label="Select" path="selectValue">
           <n-select
             v-model:value="queryData.selectValue"
@@ -83,7 +81,7 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
-import useSyncQuery from '@/composibles/useSyncQuery';
+import useSyncQuery from '@/composables/useQuerySyncData';
 import type { Rules } from '@/shared/types';
 
 const opts = ['apple', 'banana', 'orange'];
@@ -176,3 +174,5 @@ const pushToSameRoute = (num: number) => {
   background-color: #ccc;
 }
 </style>
+@/composables/useSyncQuery
+@/composables/useQuerySyncData
