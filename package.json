@@ -3,7 +3,7 @@
   "version": "0.0.25-beta04",
   "license": "ISC",
   "author": "Ray Tsai",
-  "description": "A composition API that can sync your query from url to data.",
+  "description": "A composition API that sync url query to data.",
   "private": false,
   "type": "module",
   "module": "./dist/index.es.js",
