@@ -106,7 +106,6 @@ export default ({ mode }) => {
       lib: {
         entry: './src/index.ts',
         name: 'use-query-sync-data',
-        formats: ['es'],
         fileName: format => `index.${format}.js`,
       },
       rollupOptions: {
