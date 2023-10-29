@@ -26,21 +26,6 @@ pnpm install use-query-sync-data
 
 [Demo](https://c9t6vx-5173.csb.app) here.
 
-### Global
-
-In the main file
-
-```js
-import { createApp } from 'vue';
-import ReTimePicker from 're-time-picker';
-import App from './App.vue';
-import 're-time-picker/dist/style.css';
-
-const app = createApp(App);
-app.component('ReTimePicker', ReTimePicker);
-app.mount('#app');
-```
-
 ### Example
 
 In the SFC(`.vue`)
