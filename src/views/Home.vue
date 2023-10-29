@@ -1,12 +1,13 @@
 <template>
-  <div class="">
-    <button @click="toSearch('apple')">
+  <div class="home">
+    <h3>to search page with inputValue and selectValue</h3>
+    <button class="btn" @click="toSearch('apple')">
       apple
     </button>
-    <button @click="toSearch('banana')">
+    <button class="btn" @click="toSearch('banana')">
       banana
     </button>
-    <button @click="toSearch('orange')">
+    <button class="btn" @click="toSearch('orange')">
       orange
     </button>
   </div>
@@ -28,6 +29,17 @@ const toSearch = (fruit: string) => {
 };
 </script>
 
-<style lang="scss" scoped>
-
+<style  scoped>
+.btn {
+  display: inline-block;
+  border: 0;
+  outline: 0;
+  padding: 10px;
+  margin-right: 10px;
+  cursor: pointer;
+  border-radius: 10px;
+  background-color: #efefef;
+  text-decoration: none;
+  color: #000;
+}
 </style>

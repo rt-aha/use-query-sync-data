@@ -14,9 +14,27 @@
           <n-form-item-gi :span="24" label="Input" path="inputValue">
             <n-input v-model:value="queryData.inputValue" />
           </n-form-item-gi>
-
           <n-form-item-gi :span="24" label="Select" path="selectValue">
             <n-select v-model:value="queryData.selectValue" :options="generalOptions" />
+          </n-form-item-gi>
+          <n-form-item-gi
+            :span="12"
+            label="Checkbox Group"
+            path="checkboxGroupValue"
+          >
+            <n-checkbox-group v-model:value="queryData.checkboxGroupValue">
+              <n-space>
+                <n-checkbox value="opt1">
+                  opt1
+                </n-checkbox>
+                <n-checkbox value="opt2">
+                  opt2
+                </n-checkbox>
+                <n-checkbox value="opt3">
+                  opt3
+                </n-checkbox>
+              </n-space>
+            </n-checkbox-group>
           </n-form-item-gi>
           <n-form-item-gi :span="24" label="Radio" path="language">
             <n-radio-group v-model:value="queryData.radioValue">
@@ -36,13 +54,13 @@
       <div class="pi-test">
         <h3>test pageIndex change</h3>
         <p>if only want to update specific value, use `updateQueryData` method</p>
-        <button class="pi-test-btn" @click="changePageIndex(1)">
+        <button class="btn" @click="changePageIndex(1)">
           pageIndex = 1
         </button>
-        <button class="pi-test-btn" @click="changePageIndex(2)">
+        <button class="btn" @click="changePageIndex(2)">
           pageIndex = 2
         </button>
-        <button class="pi-test-btn" @click="changePageIndex(3)">
+        <button class="btn" @click="changePageIndex(3)">
           pageIndex = 3
         </button>
       </div>
@@ -50,15 +68,29 @@
       <div class="val-test">
         <h3>test change page with specific values</h3>
         <p>since only change page with specifc values, other query value will fallback to default</p>
-        <button class="val-test-btn" @click="pushToSameRoute({ inputValue: 'apple' })">
+        <button class="btn" @click="pushToSameRoute({ inputValue: 'apple' })">
           inputValue = 'apple'
         </button>
-        <button class="val-test-btn" @click="pushToSameRoute({ inputValue: 'banana', selectValue: 'orange' })">
+        <button class="btn" @click="pushToSameRoute({ inputValue: 'banana', selectValue: 'orange' })">
           inputValue = 'banana', selectValue = 'orange'
         </button>
-        <button class="val-test-btn" @click="pushToSameRoute({ radioValue: 'Chinese', switchValue: false })">
+        <button class="btn" @click="pushToSameRoute({ radioValue: 'Chinese', switchValue: false })">
           radioValue: 'Chinese', switchValue: false
         </button>
+      </div>
+
+      <div>
+        <h3>test to home page</h3>
+        <router-link to="/" class="btn">
+          to home page
+        </router-link>
+      </div>
+
+      <div>
+        <h3>test to dynamic page</h3>
+        <router-link :to="{ name: 'dynamic', params: { id: Date.now() } }" class="btn">
+          to dynamic page
+        </router-link>
       </div>
     </div>
   </div>
@@ -80,9 +112,9 @@ const generalOptions = opts.map(
 );
 
 const defaultQueryData = {
-  inputValue: '',
+  inputValue: 'search',
   selectValue: '',
-  rangeData: [0, 0],
+  checkboxGroupValue: ['opt1'],
   person: {
     name: 'Allen',
     age: 30,
@@ -112,7 +144,7 @@ const rules: Rules<QueryData> = {
     return false;
   },
 
-  language: (val) => {
+  radioValue: (val) => {
     if (langOpts.includes(val)) {
       return true;
     }
@@ -187,22 +219,17 @@ const pushToSameRoute = (query: any) => {
   }
 }
 
-.pi-test-btn {
+.btn {
+  display: inline-block;
   border: 0;
   outline: 0;
   padding: 10px;
   margin-right: 10px;
   cursor: pointer;
   border-radius: 10px;
-}
-
-.val-test-btn {
-  border: 0;
-  outline: 0;
-  padding: 10px;
-  margin-right: 10px;
-  cursor: pointer;
-  border-radius: 10px;
+  background-color: #efefef;
+  text-decoration: none;
+  color: #000;
 }
 
 button:hover {
