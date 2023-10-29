@@ -8,6 +8,9 @@
       <button @click="updatePageIndex">
         updatePageIndex
       </button>
+      <button @click="toOtherDynamicPage">
+        toOtherDynamicPage
+      </button>
     </div>
     <router-link :to="{ name: 'fake', query: { un: undefined } }">
       to fake with undefined query
@@ -152,9 +155,19 @@ const beautifyQueryData = computed(() => {
 });
 
 const router = useRouter();
+const route = useRoute();
 
 const updatePageIndex = () => {
   updateQueryData({ pageIndex: 1 });
+};
+
+const toOtherDynamicPage = () => {
+  router.push({
+    name: 'dynamic',
+    params: {
+      id: `${Date.now()}`,
+    },
+  });
 };
 
 const changePageIndex = (num: number) => {
@@ -163,7 +176,7 @@ const changePageIndex = (num: number) => {
 
 const pushToSameRoute = (num: number) => {
   router.push({
-    name: 'search',
+    name: route.name as string,
     query: {
       a: num,
     },

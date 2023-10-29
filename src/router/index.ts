@@ -20,6 +20,14 @@ const router = createRouter({
       },
     },
     {
+      path: '/dynamic/:id',
+      name: 'dynamic',
+      component: () => import('@/views/Dynamic.vue'),
+      meta: {
+        title: '首頁',
+      },
+    },
+    {
       path: '/fake',
       name: 'fake',
       component: () => import('@/views/Fake.vue'),

@@ -8,13 +8,17 @@ const useSyncQuery = <T extends Record<string, any>, K extends keyof T>(
   rules: Rules<T>,
   options: {
     queryChangeCallback?: (queryData: T) => void
+    initCallback?: (queryData: T) => void
+    mountedCallback?: (queryData: T) => void
   } = {},
-): { queryData: Ref<T>
+): {
+    queryData: Ref<T>
     updateQueryData: (val: Record<string, unknown>) => void
   } => {
-  const queryData = ref<T>(cloneDeep(defaultQueryData)) as Ref<T>;
   const route = useRoute();
   const router = useRouter();
+  const queryData = ref<T>(cloneDeep(defaultQueryData)) as Ref<T>;
+  const currPage = ref(route.name) as Ref<string>;
   const queryDataKeys = Object.keys(defaultQueryData) as K[];
 
   const updateQuery = (routerMethod: 'push' | 'replace' = 'push') => {
@@ -30,10 +34,12 @@ const useSyncQuery = <T extends Record<string, any>, K extends keyof T>(
       return obj;
     }, {} as Record<K, any>);
 
-    router[routerMethod]({
-      name: route.name as string,
-      query,
-    });
+    if (route.name === currPage.value) {
+      router[routerMethod]({
+        path: route.path,
+        query,
+      });
+    }
   };
 
   const setDataFromQuery = () => {
@@ -71,10 +77,7 @@ const useSyncQuery = <T extends Record<string, any>, K extends keyof T>(
       const currVal = queryData.value[key];
       const defaultVal = defaultQueryData[key];
 
-      console.log('%cisNull -->', 'color: #059669; background-color: #D1FAE5', isNull(defaultVal));
-
       if (isObjectLike(defaultQueryData[key]) && typeof currVal === 'string') {
-        console.log('currVal', currVal);
         obj[key] = JSON.parse(currVal as string);
       }
       else if (isNull(defaultVal)) {
@@ -107,8 +110,9 @@ const useSyncQuery = <T extends Record<string, any>, K extends keyof T>(
   };
 
   const routeQuery = computed(() => route.query);
+  const routeParams = computed(() => route.params);
 
-  watch(() => routeQuery.value, () => {
+  watch(() => [routeQuery.value, routeParams.value], () => {
     setDataFromQuery();
     execFuncWhenQueryChange();
   });
@@ -116,7 +120,17 @@ const useSyncQuery = <T extends Record<string, any>, K extends keyof T>(
   const init = () => {
     setDataFromQuery();
     handleQueryToData();
+
+    if (options.initCallback) {
+      options.initCallback(queryData.value);
+    }
   };
+
+  onMounted(() => {
+    if (options.mountedCallback) {
+      options.mountedCallback(queryData.value);
+    }
+  });
 
   init();
 
