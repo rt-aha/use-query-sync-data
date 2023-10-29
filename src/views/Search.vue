@@ -98,7 +98,10 @@
 
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router';
+
 import useQuerySyncData from '@/composables/useQuerySyncData';
+
+// import useQuerySyncData from 'use-query-sync-data';
 import type { Rules } from '@/shared/types';
 
 const route = useRoute();
