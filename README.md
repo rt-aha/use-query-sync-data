@@ -102,7 +102,7 @@ const {
 </script>
 ```
 
-## typeof useQuerySyncData
+## typeof `useQuerySyncData`
 
 ```ts
 declare const useQuerySyncData: (routerInstance: {
@@ -117,6 +117,25 @@ declare const useQuerySyncData: (routerInstance: {
   updateQueryData: (val: UpdateQueryData<T>) => void
 };
 ```
+## variable
+
+## queryData
+
+type: `Ref<object>` (same as what you pass into `defaultQueryData`)
+
+default: `{}`,
+
+The lastest data.
+
+## updateQueryData
+
+type: `Function`
+
+default: `(object) => {}`,
+
+pass the value you want to change. always update value by this method.
+
+e.g. `updateQueryData({ inputValue: 'grape', selectValue: 'apple' })`
 
 ## Arguments
 
@@ -152,6 +171,6 @@ callbacks.
 
 |property|type|description|
 |-|-|-|
-|queryChangeCallback|((value) => void)|called when the query change|
+|queryChangeCallback|((value) => void)|called when the query change, usually be triggered after `updateQueryData` call|
 |initCallback|((value) => void)|called when first time query has been handle|
 |mountedCallback|((value) => void)|called in the `onMounted` life cycle|
