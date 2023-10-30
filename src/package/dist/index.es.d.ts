@@ -9,10 +9,10 @@ export declare type UpdateQueryData<T> = {
     [Key in keyof Partial<T>]: T[Key];
 };
 
-declare const useQuerySyncData: <T extends Record<string, any>, K extends keyof T>(defaultQueryData: T, rules: Rules<T>, routerInstance: {
+declare const useQuerySyncData: (routerInstance: {
     useRoute: () => RouteLocationNormalizedLoaded;
     useRouter: () => Router;
-}, options?: {
+}) => <T extends Record<string, any>, K extends keyof T>(defaultQueryData: T, rules: Rules<T>, options?: {
     queryChangeCallback?: ((queryData: T) => void) | undefined;
     initCallback?: ((queryData: T) => void) | undefined;
     mountedCallback?: ((queryData: T) => void) | undefined;

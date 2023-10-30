@@ -800,109 +800,111 @@ function cloneDeep(value) {
 function isNull(value) {
   return value === null;
 }
-const useQuerySyncData = (defaultQueryData, rules, routerInstance, options = {}) => {
-  const { useRouter, useRoute } = routerInstance;
-  const route = useRoute();
-  const router = useRouter();
-  const queryData = ref(cloneDeep(defaultQueryData));
-  const currPage = ref(route == null ? void 0 : route.name);
-  const queryDataKeys = Object.keys(defaultQueryData);
-  const updateQuery = (routerMethod = "push") => {
-    const query = queryDataKeys.reduce((obj, key) => {
-      const currVal = queryData.value[key];
-      if (typeof currVal !== "string") {
-        obj[key] = JSON.stringify(currVal);
-      } else {
-        obj[key] = currVal;
-      }
-      return obj;
-    }, {});
-    if (route.name === currPage.value) {
-      router[routerMethod]({
-        path: route.path,
-        query
-      });
-    }
-  };
-  const setDataFromQuery = () => {
-    queryDataKeys.forEach((key) => {
-      const routeQueryValue = route.query[key];
-      if (rules[key]) {
-        const isValid = rules[key](routeQueryValue);
-        if (isValid) {
-          queryData.value[key] = routeQueryValue;
+const useQuerySyncData = (routerInstance) => {
+  return (defaultQueryData, rules, options = {}) => {
+    const { useRouter, useRoute } = routerInstance;
+    const route = useRoute();
+    const router = useRouter();
+    const queryData = ref(cloneDeep(defaultQueryData));
+    const currPage = ref(route == null ? void 0 : route.name);
+    const queryDataKeys = Object.keys(defaultQueryData);
+    const updateQuery = (routerMethod = "push") => {
+      const query = queryDataKeys.reduce((obj, key) => {
+        const currVal = queryData.value[key];
+        if (typeof currVal !== "string") {
+          obj[key] = JSON.stringify(currVal);
         } else {
-          queryData.value[key] = defaultQueryData[key];
+          obj[key] = currVal;
         }
-      } else {
-        queryData.value[key] = routeQueryValue || defaultQueryData[key];
+        return obj;
+      }, {});
+      if (route.name === currPage.value) {
+        router[routerMethod]({
+          path: route.path,
+          query
+        });
+      }
+    };
+    const setDataFromQuery = () => {
+      queryDataKeys.forEach((key) => {
+        const routeQueryValue = route.query[key];
+        if (rules[key]) {
+          const isValid = rules[key](routeQueryValue);
+          if (isValid) {
+            queryData.value[key] = routeQueryValue;
+          } else {
+            queryData.value[key] = defaultQueryData[key];
+          }
+        } else {
+          queryData.value[key] = routeQueryValue || defaultQueryData[key];
+        }
+      });
+      updateQuery("replace");
+    };
+    const updateQueryData = (val) => {
+      queryData.value = {
+        ...queryData.value,
+        ...val
+      };
+      updateQuery();
+    };
+    const parsedValue = (val, key) => {
+      try {
+        const parsedData = JSON.parse(val);
+        return parsedData;
+      } catch {
+        return defaultQueryData[key];
+      }
+    };
+    const handleQueryToData = () => {
+      const data = queryDataKeys.reduce((obj, key) => {
+        const currVal = queryData.value[key];
+        const defaultVal = defaultQueryData[key];
+        if (isObjectLike(defaultQueryData[key]) && typeof currVal === "string") {
+          obj[key] = parsedValue(currVal, key);
+        } else if (isNull(defaultVal)) {
+          obj[key] = null;
+        } else if (typeof defaultVal === "number") {
+          obj[key] = +currVal;
+        } else if (typeof defaultVal === "boolean") {
+          const isTrue = currVal === "true";
+          obj[key] = Boolean(isTrue);
+        } else {
+          obj[key] = currVal;
+        }
+        return obj;
+      }, {});
+      queryData.value = data;
+    };
+    const execFuncWhenQueryChange = () => {
+      handleQueryToData();
+      if (options.queryChangeCallback) {
+        options.queryChangeCallback(queryData.value);
+      }
+    };
+    const routeQuery = computed(() => route.query);
+    const routeParams = computed(() => route.params);
+    watch(() => [routeQuery.value, routeParams.value], () => {
+      setDataFromQuery();
+      execFuncWhenQueryChange();
+    });
+    const init = () => {
+      setDataFromQuery();
+      handleQueryToData();
+      if (options.initCallback) {
+        options.initCallback(queryData.value);
+      }
+    };
+    onMounted(() => {
+      if (options.mountedCallback) {
+        options.mountedCallback(queryData.value);
       }
     });
-    updateQuery("replace");
-  };
-  const updateQueryData = (val) => {
-    queryData.value = {
-      ...queryData.value,
-      ...val
+    init();
+    return {
+      queryData,
+      updateQueryData
     };
-    updateQuery();
-  };
-  const parsedValue = (val, key) => {
-    try {
-      const parsedData = JSON.parse(val);
-      return parsedData;
-    } catch {
-      return defaultQueryData[key];
-    }
-  };
-  const handleQueryToData = () => {
-    const data = queryDataKeys.reduce((obj, key) => {
-      const currVal = queryData.value[key];
-      const defaultVal = defaultQueryData[key];
-      if (isObjectLike(defaultQueryData[key]) && typeof currVal === "string") {
-        obj[key] = parsedValue(currVal, key);
-      } else if (isNull(defaultVal)) {
-        obj[key] = null;
-      } else if (typeof defaultVal === "number") {
-        obj[key] = +currVal;
-      } else if (typeof defaultVal === "boolean") {
-        const isTrue = currVal === "true";
-        obj[key] = Boolean(isTrue);
-      } else {
-        obj[key] = currVal;
-      }
-      return obj;
-    }, {});
-    queryData.value = data;
-  };
-  const execFuncWhenQueryChange = () => {
-    handleQueryToData();
-    if (options.queryChangeCallback) {
-      options.queryChangeCallback(queryData.value);
-    }
-  };
-  const routeQuery = computed(() => route.query);
-  const routeParams = computed(() => route.params);
-  watch(() => [routeQuery.value, routeParams.value], () => {
-    setDataFromQuery();
-    execFuncWhenQueryChange();
-  });
-  const init = () => {
-    setDataFromQuery();
-    handleQueryToData();
-    if (options.initCallback) {
-      options.initCallback(queryData.value);
-    }
-  };
-  onMounted(() => {
-    if (options.mountedCallback) {
-      options.mountedCallback(queryData.value);
-    }
-  });
-  init();
-  return {
-    queryData,
-    updateQueryData
   };
 };
 export {
