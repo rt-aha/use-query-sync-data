@@ -1,8 +1,12 @@
+As the alpha version, itt's not stable currently.
+
 ## use-query-sync-data
 
 A composition API that sync url query to data base on Vue3.
 
 To sync url query to your data. 
+
+
 
 ## Installation
 
