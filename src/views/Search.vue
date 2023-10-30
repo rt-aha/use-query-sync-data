@@ -99,11 +99,11 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router';
 
-import useQuerySyncData from 'use-query-sync-data';
+// import useQuerySyncData from 'use-query-sync-data';
 import type { Rules } from 'use-query-sync-data';
 
 // import useQuerySyncData from '@/package/dist/index.es.js';
-// import useQuerySyncData from '@/composables/useQuerySyncData';
+import useQuerySyncData from '@/composables/useQuerySyncData';
 
 // import type { Rules } from '@/shared/types';
 
@@ -136,6 +136,7 @@ type QueryData = typeof defaultQueryData;
 
 const rules: Rules<QueryData> = {
   inputValue: (val) => {
+    console.log(typeof val, val);
     if (val) {
       return true;
     }
@@ -143,6 +144,7 @@ const rules: Rules<QueryData> = {
     return false;
   },
   selectValue: (val) => {
+    console.log(typeof val, val);
     if (opts.includes(val)) {
       return true;
     }
@@ -151,11 +153,32 @@ const rules: Rules<QueryData> = {
   },
 
   radioValue: (val) => {
+    console.log(typeof val, val);
     if (langOpts.includes(val)) {
       return true;
     }
 
     return false;
+  },
+  pageIndex: (val) => {
+    console.log(typeof val, val);
+
+    return true;
+  },
+  switchValue: (val) => {
+    console.log(typeof val, val);
+
+    return true;
+  },
+  checkboxGroupValue: (val) => {
+    console.log('c', typeof val, val);
+
+    return true;
+  },
+  person: (val) => {
+    console.log('p', typeof val, val);
+
+    return true;
   },
 };
 

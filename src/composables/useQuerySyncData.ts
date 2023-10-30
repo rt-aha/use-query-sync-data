@@ -46,14 +46,43 @@ const useQuerySyncData = (routerInstance: {
       }
     };
 
+    const covertCurrectType = (key: K) => {
+      const valType = typeof defaultQueryData[key];
+
+      const routeQueryValue = route.query[key] as any;
+
+      if (valType === 'number') {
+        return +routeQueryValue as number;
+      }
+
+      if (valType === 'string') {
+        return routeQueryValue as string;
+      }
+
+      if (valType === 'boolean') {
+        const isTrue = routeQueryValue === 'true';
+        return isTrue as boolean;
+      }
+
+      if (isObjectLike(defaultQueryData[key])) {
+        try {
+          return JSON.parse(routeQueryValue);
+        }
+        catch {
+          return defaultQueryData[key];
+        }
+      }
+    };
+
     const setDataFromQuery = () => {
       queryDataKeys.forEach((key: K) => {
         const routeQueryValue = route.query[key] as any;
+        const convertedValue = covertCurrectType(key) as any;
         if (rules[key]) {
-          const isValid = rules[key](routeQueryValue);
+          const isValid = rules[key](convertedValue);
 
           if (isValid) {
-            queryData.value[key] = routeQueryValue;
+            queryData.value[key] = convertedValue as any;
           }
           else {
             queryData.value[key] = defaultQueryData[key];
