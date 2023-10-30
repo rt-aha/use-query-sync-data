@@ -98,9 +98,10 @@
 
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router';
-
-import useQuerySyncData from '@/package/dist/index.es.js';
+import useQuerySyncData from 'use-query-sync-data';
 import type { Rules } from '@/shared/types';
+
+// import useQuerySyncData from '@/package/dist/index.es.js';
 
 const route = useRoute();
 const opts = ['apple', 'banana', 'orange'];
