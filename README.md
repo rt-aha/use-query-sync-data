@@ -94,7 +94,7 @@ const mountedCallback = (newQueryData) => {
 const {
   updateQueryData,
   queryData,
-} = useSyncQuery({ useRoute, useRouter })(defaultQueryData, rules, {
+} = useQuerySyncData({ useRoute, useRouter })(defaultQueryData, rules, {
   queryChangeCallback,
   initCallback,
   mountedCallback
