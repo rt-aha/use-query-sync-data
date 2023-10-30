@@ -1,11 +1,14 @@
 import { cloneDeep, isNull, isObjectLike } from 'lodash-es';
-import type { LocationQueryRaw } from 'vue-router';
-import { useRoute, useRouter } from 'vue-router';
+import type { LocationQueryRaw, RouteLocationNormalizedLoaded, Router } from 'vue-router';
 import type { Rules, UpdateQueryData } from '@/shared/types';
 
 const useQuerySyncData = <T extends Record<string, any>, K extends keyof T>(
   defaultQueryData: T,
   rules: Rules<T>,
+  routerInstance: {
+    useRoute: () => RouteLocationNormalizedLoaded
+    useRouter: () => Router
+  },
   options: {
     queryChangeCallback?: (queryData: T) => void
     initCallback?: (queryData: T) => void
@@ -15,6 +18,7 @@ const useQuerySyncData = <T extends Record<string, any>, K extends keyof T>(
     queryData: Ref<T>
     updateQueryData: (val: UpdateQueryData<T>) => void
   } => {
+  const { useRouter, useRoute } = routerInstance;
   const route = useRoute();
   const router = useRouter();
   const queryData = ref<T>(cloneDeep(defaultQueryData)) as Ref<T>;

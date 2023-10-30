@@ -161,7 +161,7 @@ const queryChangeCallback = (newQueryData: QueryData) => {
 const {
   updateQueryData,
   queryData,
-} = useQuerySyncData(defaultQueryData, rules, { queryChangeCallback });
+} = useQuerySyncData(defaultQueryData, rules, { useRoute, useRouter }, { queryChangeCallback });
 
 const beautifyQueryData = computed(() => {
   return JSON.stringify(toRaw(queryData.value), null, 2);

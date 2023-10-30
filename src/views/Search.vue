@@ -99,8 +99,6 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router';
 
-// import useQuerySyncData from '@/composables/useQuerySyncData';
-
 import useQuerySyncData from '@/package/dist/index.es.js';
 import type { Rules } from '@/shared/types';
 
@@ -163,7 +161,12 @@ const queryChangeCallback = (newQueryData: QueryData) => {
 const {
   updateQueryData,
   queryData,
-} = useQuerySyncData(defaultQueryData, rules, { queryChangeCallback });
+} = useQuerySyncData(
+  defaultQueryData,
+  rules,
+  { useRoute, useRouter },
+  { queryChangeCallback },
+);
 
 const beautifyQueryData = computed(() => {
   return JSON.stringify(toRaw(queryData.value), null, 2);
