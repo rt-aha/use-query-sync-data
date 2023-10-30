@@ -149,14 +149,13 @@ const rules: Rules<QueryData> = {
 
     return false;
   },
+  radioValue: (val) => {
+    if (langOpts.includes(val)) {
+      return true;
+    }
 
-  // radioValue: (val) => {
-  //   if (langOpts.includes(val)) {
-  //     return true;
-  //   }
-
-  //   return false;
-  // },
+    return false;
+  },
   // person: (val) => {
   //   return true;
   // },
