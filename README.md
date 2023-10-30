@@ -117,9 +117,9 @@ declare const useQuerySyncData: (routerInstance: {
   updateQueryData: (val: UpdateQueryData<T>) => void
 };
 ```
-## variable
+## Values return from useQuerySyncData
 
-## queryData
+### queryData
 
 type: `Ref<object>` (same as what you pass into `defaultQueryData`)
 
@@ -127,7 +127,7 @@ default: `{}`,
 
 The lastest data.
 
-## updateQueryData
+### updateQueryData
 
 type: `Function`
 
