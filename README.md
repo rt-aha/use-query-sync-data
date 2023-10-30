@@ -2,23 +2,23 @@
 
 A composition API that sync url query to data base on Vue3.
 
-To sync url query to your data. 
+Sync url query to your data. 
 
 ## Installation
 
-### NPM
+### npm
 
 ```
 npm install use-query-sync-data
 ```
 
-### YARN
+### yarn
 
 ```
 yarn add use-query-sync-data
 ```
 
-### PNPM
+### pnpm
 
 ```
 pnpm install use-query-sync-data
@@ -26,7 +26,7 @@ pnpm install use-query-sync-data
 
 ## Usage
 
-[Demo](https://c9t6vx-5173.csb.app/search) here.
+[Demo](https://codesandbox.io/p/sandbox/solitary-bush-c9t6vx) here.
 
 ### Example
 
@@ -125,7 +125,7 @@ type: `Ref<object>` (same as what you pass into `defaultQueryData`)
 
 default: `{}`,
 
-The lastest data.
+The latest data.
 
 ### updateQueryData
 
