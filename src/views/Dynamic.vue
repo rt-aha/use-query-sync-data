@@ -98,10 +98,10 @@
 
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router';
-import useQuerySyncData from 'use-query-sync-data';
-import type { Rules } from '@/shared/types';
 
-// import useQuerySyncData from '@/composables/useQuerySyncData';
+// import useQuerySyncData from 'use-query-sync-data';
+import type { Rules } from '@/shared/types';
+import useQuerySyncData from '@/composables/useQuerySyncData';
 
 const route = useRoute();
 const opts = ['apple', 'banana', 'orange'];
@@ -163,7 +163,11 @@ const queryChangeCallback = (newQueryData: QueryData) => {
 const {
   updateQueryData,
   queryData,
-} = useQuerySyncData(defaultQueryData, rules, { useRoute, useRouter }, { queryChangeCallback });
+} = useQuerySyncData({ useRoute, useRouter })(
+  defaultQueryData,
+  rules,
+  { queryChangeCallback },
+);
 
 const beautifyQueryData = computed(() => {
   return JSON.stringify(toRaw(queryData.value), null, 2);
