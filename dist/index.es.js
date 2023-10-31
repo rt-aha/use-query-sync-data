@@ -6,12 +6,12 @@ var root = freeGlobal$1 || freeSelf || Function("return this")();
 const root$1 = root;
 var Symbol$1 = root$1.Symbol;
 const Symbol$2 = Symbol$1;
-var objectProto$c = Object.prototype;
-var hasOwnProperty$9 = objectProto$c.hasOwnProperty;
-var nativeObjectToString$1 = objectProto$c.toString;
+var objectProto$d = Object.prototype;
+var hasOwnProperty$a = objectProto$d.hasOwnProperty;
+var nativeObjectToString$1 = objectProto$d.toString;
 var symToStringTag$1 = Symbol$2 ? Symbol$2.toStringTag : void 0;
 function getRawTag(value) {
-  var isOwn = hasOwnProperty$9.call(value, symToStringTag$1), tag = value[symToStringTag$1];
+  var isOwn = hasOwnProperty$a.call(value, symToStringTag$1), tag = value[symToStringTag$1];
   try {
     value[symToStringTag$1] = void 0;
     var unmasked = true;
@@ -27,8 +27,8 @@ function getRawTag(value) {
   }
   return result;
 }
-var objectProto$b = Object.prototype;
-var nativeObjectToString = objectProto$b.toString;
+var objectProto$c = Object.prototype;
+var nativeObjectToString = objectProto$c.toString;
 function objectToString(value) {
   return nativeObjectToString.call(value);
 }
@@ -66,12 +66,12 @@ var maskSrcKey = function() {
 function isMasked(func) {
   return !!maskSrcKey && maskSrcKey in func;
 }
-var funcProto$1 = Function.prototype;
-var funcToString$1 = funcProto$1.toString;
+var funcProto$2 = Function.prototype;
+var funcToString$2 = funcProto$2.toString;
 function toSource(func) {
   if (func != null) {
     try {
-      return funcToString$1.call(func);
+      return funcToString$2.call(func);
     } catch (e) {
     }
     try {
@@ -83,11 +83,11 @@ function toSource(func) {
 }
 var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
 var reIsHostCtor = /^\[object .+?Constructor\]$/;
-var funcProto = Function.prototype, objectProto$a = Object.prototype;
-var funcToString = funcProto.toString;
-var hasOwnProperty$8 = objectProto$a.hasOwnProperty;
+var funcProto$1 = Function.prototype, objectProto$b = Object.prototype;
+var funcToString$1 = funcProto$1.toString;
+var hasOwnProperty$9 = objectProto$b.hasOwnProperty;
 var reIsNative = RegExp(
-  "^" + funcToString.call(hasOwnProperty$8).replace(reRegExpChar, "\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") + "$"
+  "^" + funcToString$1.call(hasOwnProperty$9).replace(reRegExpChar, "\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") + "$"
 );
 function baseIsNative(value) {
   if (!isObject(value) || isMasked(value)) {
@@ -171,11 +171,11 @@ function baseAssignValue(object, key, value) {
 function eq(value, other) {
   return value === other || value !== value && other !== other;
 }
-var objectProto$9 = Object.prototype;
-var hasOwnProperty$7 = objectProto$9.hasOwnProperty;
+var objectProto$a = Object.prototype;
+var hasOwnProperty$8 = objectProto$a.hasOwnProperty;
 function assignValue(object, key, value) {
   var objValue = object[key];
-  if (!(hasOwnProperty$7.call(object, key) && eq(objValue, value)) || value === void 0 && !(key in object)) {
+  if (!(hasOwnProperty$8.call(object, key) && eq(objValue, value)) || value === void 0 && !(key in object)) {
     baseAssignValue(object, key, value);
   }
 }
@@ -204,9 +204,9 @@ function isLength(value) {
 function isArrayLike(value) {
   return value != null && isLength(value.length) && !isFunction(value);
 }
-var objectProto$8 = Object.prototype;
+var objectProto$9 = Object.prototype;
 function isPrototype(value) {
-  var Ctor = value && value.constructor, proto = typeof Ctor == "function" && Ctor.prototype || objectProto$8;
+  var Ctor = value && value.constructor, proto = typeof Ctor == "function" && Ctor.prototype || objectProto$9;
   return value === proto;
 }
 function baseTimes(n, iteratee) {
@@ -220,13 +220,13 @@ var argsTag$2 = "[object Arguments]";
 function baseIsArguments(value) {
   return isObjectLike(value) && baseGetTag(value) == argsTag$2;
 }
-var objectProto$7 = Object.prototype;
-var hasOwnProperty$6 = objectProto$7.hasOwnProperty;
-var propertyIsEnumerable$1 = objectProto$7.propertyIsEnumerable;
+var objectProto$8 = Object.prototype;
+var hasOwnProperty$7 = objectProto$8.hasOwnProperty;
+var propertyIsEnumerable$1 = objectProto$8.propertyIsEnumerable;
 var isArguments = baseIsArguments(function() {
   return arguments;
 }()) ? baseIsArguments : function(value) {
-  return isObjectLike(value) && hasOwnProperty$6.call(value, "callee") && !propertyIsEnumerable$1.call(value, "callee");
+  return isObjectLike(value) && hasOwnProperty$7.call(value, "callee") && !propertyIsEnumerable$1.call(value, "callee");
 };
 const isArguments$1 = isArguments;
 function stubFalse() {
@@ -239,11 +239,11 @@ var Buffer$1 = moduleExports$2 ? root$1.Buffer : void 0;
 var nativeIsBuffer = Buffer$1 ? Buffer$1.isBuffer : void 0;
 var isBuffer = nativeIsBuffer || stubFalse;
 const isBuffer$1 = isBuffer;
-var argsTag$1 = "[object Arguments]", arrayTag$1 = "[object Array]", boolTag$2 = "[object Boolean]", dateTag$2 = "[object Date]", errorTag$1 = "[object Error]", funcTag$1 = "[object Function]", mapTag$4 = "[object Map]", numberTag$2 = "[object Number]", objectTag$2 = "[object Object]", regexpTag$2 = "[object RegExp]", setTag$4 = "[object Set]", stringTag$2 = "[object String]", weakMapTag$2 = "[object WeakMap]";
+var argsTag$1 = "[object Arguments]", arrayTag$1 = "[object Array]", boolTag$2 = "[object Boolean]", dateTag$2 = "[object Date]", errorTag$1 = "[object Error]", funcTag$1 = "[object Function]", mapTag$4 = "[object Map]", numberTag$2 = "[object Number]", objectTag$3 = "[object Object]", regexpTag$2 = "[object RegExp]", setTag$4 = "[object Set]", stringTag$2 = "[object String]", weakMapTag$2 = "[object WeakMap]";
 var arrayBufferTag$2 = "[object ArrayBuffer]", dataViewTag$3 = "[object DataView]", float32Tag$2 = "[object Float32Array]", float64Tag$2 = "[object Float64Array]", int8Tag$2 = "[object Int8Array]", int16Tag$2 = "[object Int16Array]", int32Tag$2 = "[object Int32Array]", uint8Tag$2 = "[object Uint8Array]", uint8ClampedTag$2 = "[object Uint8ClampedArray]", uint16Tag$2 = "[object Uint16Array]", uint32Tag$2 = "[object Uint32Array]";
 var typedArrayTags = {};
 typedArrayTags[float32Tag$2] = typedArrayTags[float64Tag$2] = typedArrayTags[int8Tag$2] = typedArrayTags[int16Tag$2] = typedArrayTags[int32Tag$2] = typedArrayTags[uint8Tag$2] = typedArrayTags[uint8ClampedTag$2] = typedArrayTags[uint16Tag$2] = typedArrayTags[uint32Tag$2] = true;
-typedArrayTags[argsTag$1] = typedArrayTags[arrayTag$1] = typedArrayTags[arrayBufferTag$2] = typedArrayTags[boolTag$2] = typedArrayTags[dataViewTag$3] = typedArrayTags[dateTag$2] = typedArrayTags[errorTag$1] = typedArrayTags[funcTag$1] = typedArrayTags[mapTag$4] = typedArrayTags[numberTag$2] = typedArrayTags[objectTag$2] = typedArrayTags[regexpTag$2] = typedArrayTags[setTag$4] = typedArrayTags[stringTag$2] = typedArrayTags[weakMapTag$2] = false;
+typedArrayTags[argsTag$1] = typedArrayTags[arrayTag$1] = typedArrayTags[arrayBufferTag$2] = typedArrayTags[boolTag$2] = typedArrayTags[dataViewTag$3] = typedArrayTags[dateTag$2] = typedArrayTags[errorTag$1] = typedArrayTags[funcTag$1] = typedArrayTags[mapTag$4] = typedArrayTags[numberTag$2] = typedArrayTags[objectTag$3] = typedArrayTags[regexpTag$2] = typedArrayTags[setTag$4] = typedArrayTags[stringTag$2] = typedArrayTags[weakMapTag$2] = false;
 function baseIsTypedArray(value) {
   return isObjectLike(value) && isLength(value.length) && !!typedArrayTags[baseGetTag(value)];
 }
@@ -270,12 +270,12 @@ const nodeUtil$1 = nodeUtil;
 var nodeIsTypedArray = nodeUtil$1 && nodeUtil$1.isTypedArray;
 var isTypedArray = nodeIsTypedArray ? baseUnary(nodeIsTypedArray) : baseIsTypedArray;
 const isTypedArray$1 = isTypedArray;
-var objectProto$6 = Object.prototype;
-var hasOwnProperty$5 = objectProto$6.hasOwnProperty;
+var objectProto$7 = Object.prototype;
+var hasOwnProperty$6 = objectProto$7.hasOwnProperty;
 function arrayLikeKeys(value, inherited) {
   var isArr = isArray$1(value), isArg = !isArr && isArguments$1(value), isBuff = !isArr && !isArg && isBuffer$1(value), isType = !isArr && !isArg && !isBuff && isTypedArray$1(value), skipIndexes = isArr || isArg || isBuff || isType, result = skipIndexes ? baseTimes(value.length, String) : [], length = result.length;
   for (var key in value) {
-    if ((inherited || hasOwnProperty$5.call(value, key)) && !(skipIndexes && // Safari 9 has enumerable `arguments.length` in strict mode.
+    if ((inherited || hasOwnProperty$6.call(value, key)) && !(skipIndexes && // Safari 9 has enumerable `arguments.length` in strict mode.
     (key == "length" || // Node.js 0.10 has enumerable non-index properties on buffers.
     isBuff && (key == "offset" || key == "parent") || // PhantomJS 2 has enumerable non-index properties on typed arrays.
     isType && (key == "buffer" || key == "byteLength" || key == "byteOffset") || // Skip index properties.
@@ -292,15 +292,15 @@ function overArg(func, transform) {
 }
 var nativeKeys = overArg(Object.keys, Object);
 const nativeKeys$1 = nativeKeys;
-var objectProto$5 = Object.prototype;
-var hasOwnProperty$4 = objectProto$5.hasOwnProperty;
+var objectProto$6 = Object.prototype;
+var hasOwnProperty$5 = objectProto$6.hasOwnProperty;
 function baseKeys(object) {
   if (!isPrototype(object)) {
     return nativeKeys$1(object);
   }
   var result = [];
   for (var key in Object(object)) {
-    if (hasOwnProperty$4.call(object, key) && key != "constructor") {
+    if (hasOwnProperty$5.call(object, key) && key != "constructor") {
       result.push(key);
     }
   }
@@ -318,15 +318,15 @@ function nativeKeysIn(object) {
   }
   return result;
 }
-var objectProto$4 = Object.prototype;
-var hasOwnProperty$3 = objectProto$4.hasOwnProperty;
+var objectProto$5 = Object.prototype;
+var hasOwnProperty$4 = objectProto$5.hasOwnProperty;
 function baseKeysIn(object) {
   if (!isObject(object)) {
     return nativeKeysIn(object);
   }
   var isProto = isPrototype(object), result = [];
   for (var key in object) {
-    if (!(key == "constructor" && (isProto || !hasOwnProperty$3.call(object, key)))) {
+    if (!(key == "constructor" && (isProto || !hasOwnProperty$4.call(object, key)))) {
       result.push(key);
     }
   }
@@ -347,21 +347,21 @@ function hashDelete(key) {
   return result;
 }
 var HASH_UNDEFINED$1 = "__lodash_hash_undefined__";
-var objectProto$3 = Object.prototype;
-var hasOwnProperty$2 = objectProto$3.hasOwnProperty;
+var objectProto$4 = Object.prototype;
+var hasOwnProperty$3 = objectProto$4.hasOwnProperty;
 function hashGet(key) {
   var data = this.__data__;
   if (nativeCreate$1) {
     var result = data[key];
     return result === HASH_UNDEFINED$1 ? void 0 : result;
   }
-  return hasOwnProperty$2.call(data, key) ? data[key] : void 0;
+  return hasOwnProperty$3.call(data, key) ? data[key] : void 0;
 }
-var objectProto$2 = Object.prototype;
-var hasOwnProperty$1 = objectProto$2.hasOwnProperty;
+var objectProto$3 = Object.prototype;
+var hasOwnProperty$2 = objectProto$3.hasOwnProperty;
 function hashHas(key) {
   var data = this.__data__;
-  return nativeCreate$1 ? data[key] !== void 0 : hasOwnProperty$1.call(data, key);
+  return nativeCreate$1 ? data[key] !== void 0 : hasOwnProperty$2.call(data, key);
 }
 var HASH_UNDEFINED = "__lodash_hash_undefined__";
 function hashSet(key, value) {
@@ -499,6 +499,22 @@ function arrayPush(array, values) {
 }
 var getPrototype = overArg(Object.getPrototypeOf, Object);
 const getPrototype$1 = getPrototype;
+var objectTag$2 = "[object Object]";
+var funcProto = Function.prototype, objectProto$2 = Object.prototype;
+var funcToString = funcProto.toString;
+var hasOwnProperty$1 = objectProto$2.hasOwnProperty;
+var objectCtorString = funcToString.call(Object);
+function isPlainObject(value) {
+  if (!isObjectLike(value) || baseGetTag(value) != objectTag$2) {
+    return false;
+  }
+  var proto = getPrototype$1(value);
+  if (proto === null) {
+    return true;
+  }
+  var Ctor = hasOwnProperty$1.call(proto, "constructor") && proto.constructor;
+  return typeof Ctor == "function" && Ctor instanceof Ctor && funcToString.call(Ctor) == objectCtorString;
+}
 function stackClear() {
   this.__data__ = new ListCache();
   this.size = 0;
@@ -825,18 +841,56 @@ const useQuerySyncData = (routerInstance) => {
         });
       }
     };
+    const parseJSON = (val, type) => {
+      try {
+        const result = JSON.parse(val);
+        return result;
+      } catch (e) {
+        console.log("e...", e);
+        if (type === "object") {
+          return {};
+        }
+        if (type === "array") {
+          return [];
+        }
+      }
+    };
+    const realValue = (routeQueryValue, key) => {
+      if (typeof defaultQueryData[key] === "number") {
+        return +routeQueryValue;
+      }
+      if (typeof defaultQueryData[key] === "string") {
+        return routeQueryValue;
+      }
+      if (typeof defaultQueryData[key] === "boolean") {
+        const boolVal = routeQueryValue === "true";
+        return boolVal;
+      }
+      if (isPlainObject(defaultQueryData[key])) {
+        return parseJSON(routeQueryValue, "object");
+      }
+      if (isArray$1(defaultQueryData[key])) {
+        return parseJSON(routeQueryValue, "array");
+      }
+      if (isNull(defaultQueryData[key])) {
+        return null;
+      }
+      return routeQueryValue;
+    };
     const setDataFromQuery = () => {
       queryDataKeys.forEach((key) => {
         const routeQueryValue = route.query[key];
-        if (rules[key]) {
-          const isValid = rules[key](routeQueryValue);
+        if (routeQueryValue === void 0) {
+          queryData.value[key] = defaultQueryData[key];
+        } else if (!(key in rules)) {
+          queryData.value[key] = realValue(routeQueryValue, key);
+        } else {
+          const isValid = rules[key](realValue(routeQueryValue, key));
           if (isValid) {
-            queryData.value[key] = routeQueryValue;
+            queryData.value[key] = realValue(routeQueryValue, key);
           } else {
             queryData.value[key] = defaultQueryData[key];
           }
-        } else {
-          queryData.value[key] = routeQueryValue || defaultQueryData[key];
         }
       });
       updateQuery("replace");
@@ -848,36 +902,7 @@ const useQuerySyncData = (routerInstance) => {
       };
       updateQuery();
     };
-    const parsedValue = (val, key) => {
-      try {
-        const parsedData = JSON.parse(val);
-        return parsedData;
-      } catch {
-        return defaultQueryData[key];
-      }
-    };
-    const handleQueryToData = () => {
-      const data = queryDataKeys.reduce((obj, key) => {
-        const currVal = queryData.value[key];
-        const defaultVal = defaultQueryData[key];
-        if (isObjectLike(defaultQueryData[key]) && typeof currVal === "string") {
-          obj[key] = parsedValue(currVal, key);
-        } else if (isNull(defaultVal)) {
-          obj[key] = null;
-        } else if (typeof defaultVal === "number") {
-          obj[key] = +currVal;
-        } else if (typeof defaultVal === "boolean") {
-          const isTrue = currVal === "true";
-          obj[key] = Boolean(isTrue);
-        } else {
-          obj[key] = currVal;
-        }
-        return obj;
-      }, {});
-      queryData.value = data;
-    };
     const execFuncWhenQueryChange = () => {
-      handleQueryToData();
       if (options.queryChangeCallback) {
         options.queryChangeCallback(queryData.value);
       }
@@ -890,7 +915,6 @@ const useQuerySyncData = (routerInstance) => {
     });
     const init = () => {
       setDataFromQuery();
-      handleQueryToData();
       if (options.initCallback) {
         options.initCallback(queryData.value);
       }

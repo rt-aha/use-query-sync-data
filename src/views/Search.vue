@@ -6,6 +6,7 @@
         <div class="query-value">
           <pre>
         {{ beautifyQueryData }}
+
       </pre>
         </div>
       </div>
@@ -99,10 +100,10 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router';
 
-import useQuerySyncData from 'use-query-sync-data';
+// import useQuerySyncData from 'use-query-sync-data';
 import type { Rules } from 'use-query-sync-data';
 
-// import useQuerySyncData from '@/package/dist/index.es.js';
+import useQuerySyncData from '@/package/dist/index.es.js';
 
 // import useQuerySyncData from '@/composables/useQuerySyncData';
 
@@ -137,6 +138,7 @@ type QueryData = typeof defaultQueryData;
 
 const rules: Rules<QueryData> = {
   inputValue: (val) => {
+    // console.log('val...inputValue', val);
     if (val) {
       return true;
     }
@@ -144,6 +146,7 @@ const rules: Rules<QueryData> = {
     return false;
   },
   selectValue: (val) => {
+    // console.log('val...selectValue', val);
     if (opts.includes(val)) {
       return true;
     }
@@ -151,6 +154,7 @@ const rules: Rules<QueryData> = {
     return false;
   },
   radioValue: (val) => {
+    // console.log('val...radioValue', val);
     if (langOpts.includes(val)) {
       return true;
     }
@@ -158,16 +162,17 @@ const rules: Rules<QueryData> = {
     return false;
   },
   // person: (val) => {
+  //   // console.log('val...person', val);
+
   //   return true;
   // },
   // switchValue: (val) => {
-  //   return true;
-  // },
-  // radioValue: (val) => {
+  //   // console.log('val...switchValue', val);
   //   return true;
   // },
 
   // checkboxGroupValue: (val) => {
+  //   // console.log('val...checkboxGroupValue', val);
   //   return true;
   // },
 };
@@ -186,7 +191,8 @@ const {
 );
 
 const beautifyQueryData = computed(() => {
-  return JSON.stringify(toRaw(queryData.value), null, 2);
+  // console.log('queryData.value', queryData.value);
+  return JSON.stringify(queryData.value, null, 2);
 });
 
 const router = useRouter();

@@ -30,7 +30,7 @@ pnpm install use-query-sync-data
 
 ## Usage
 
-[Demo](https://c9t6vx-5173.csb.app/search) here.
+[Demo](https://codesandbox.io/p/sandbox/solitary-bush-c9t6vx) here.
 
 ### Example
 

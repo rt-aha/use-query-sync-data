@@ -1,4 +1,4 @@
-import { cloneDeep, isNull, isObjectLike } from 'lodash-es';
+import { cloneDeep, isArray, isNull, isPlainObject } from 'lodash-es';
 import type { LocationQueryRaw, RouteLocationNormalizedLoaded, Router } from 'vue-router';
 import type { Rules, UpdateQueryData } from '@/shared/types';
 
@@ -46,21 +46,69 @@ const useQuerySyncData = (routerInstance: {
       }
     };
 
+    const parseJSON = (val: any, type: 'object' | 'array') => {
+      try {
+        const result = JSON.parse(val);
+        return result;
+      }
+      catch (e) {
+        console.log('e...', e);
+        if (type === 'object') {
+          return {};
+        }
+        if (type === 'array') {
+          return [];
+        }
+      }
+    };
+
+    const realValue = (routeQueryValue: any, key: K) => {
+      if (typeof defaultQueryData[key] === 'number') {
+        return +routeQueryValue;
+      }
+
+      if (typeof defaultQueryData[key] === 'string') {
+        return routeQueryValue;
+      }
+
+      if (typeof defaultQueryData[key] === 'boolean') {
+        const boolVal = routeQueryValue === 'true';
+        return boolVal;
+      }
+
+      if (isPlainObject(defaultQueryData[key])) {
+        return parseJSON(routeQueryValue, 'object');
+      }
+
+      if (isArray(defaultQueryData[key])) {
+        return parseJSON(routeQueryValue, 'array');
+      }
+
+      if (isNull(defaultQueryData[key])) {
+        return null;
+      }
+
+      return routeQueryValue;
+    };
+
     const setDataFromQuery = () => {
       queryDataKeys.forEach((key: K) => {
         const routeQueryValue = route.query[key] as any;
-        if (rules[key]) {
-          const isValid = rules[key](routeQueryValue);
+        if (routeQueryValue === undefined) {
+          queryData.value[key] = defaultQueryData[key];
+        }
+        else if (!(key in rules)) {
+          queryData.value[key] = realValue(routeQueryValue, key);
+        }
+        else {
+          const isValid = rules[key](realValue(routeQueryValue, key));
 
           if (isValid) {
-            queryData.value[key] = routeQueryValue;
+            queryData.value[key] = realValue(routeQueryValue, key);
           }
           else {
             queryData.value[key] = defaultQueryData[key];
           }
-        }
-        else {
-          queryData.value[key] = routeQueryValue || defaultQueryData[key];
         }
       });
 
@@ -76,47 +124,7 @@ const useQuerySyncData = (routerInstance: {
       updateQuery();
     };
 
-    const parsedValue = (val: string, key: K) => {
-      try {
-        const parsedData = JSON.parse(val as string);
-        return parsedData;
-      }
-      catch {
-        return defaultQueryData[key];
-      }
-    };
-
-    const handleQueryToData = () => {
-      const data = queryDataKeys.reduce((obj, key: K) => {
-        const currVal = queryData.value[key];
-        const defaultVal = defaultQueryData[key];
-
-        if (isObjectLike(defaultQueryData[key]) && typeof currVal === 'string') {
-          obj[key] = parsedValue(currVal, key);
-        }
-        else if (isNull(defaultVal)) {
-          obj[key] = null;
-        }
-        else if (typeof defaultVal === 'number') {
-          obj[key] = +currVal;
-        }
-        else if (typeof defaultVal === 'boolean') {
-          const isTrue = currVal === 'true';
-          obj[key] = Boolean(isTrue);
-        }
-        else {
-          obj[key] = currVal;
-        }
-
-        return obj;
-      }, {} as any);
-
-      queryData.value = data;
-    };
-
     const execFuncWhenQueryChange = () => {
-      handleQueryToData();
-
       if (options.queryChangeCallback) {
         options.queryChangeCallback(queryData.value);
       }
@@ -132,7 +140,6 @@ const useQuerySyncData = (routerInstance: {
 
     const init = () => {
       setDataFromQuery();
-      handleQueryToData();
 
       if (options.initCallback) {
         options.initCallback(queryData.value);
