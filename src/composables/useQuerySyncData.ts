@@ -49,7 +49,6 @@ const useQuerySyncData = (routerInstance: {
     const setDataFromQuery = () => {
       queryDataKeys.forEach((key: K) => {
         const routeQueryValue = route.query[key] as any;
-        console.log('%crouteQueryValue -->', 'color: #059669; background-color: #D1FAE5', routeQueryValue);
         if (rules[key]) {
           const isValid = rules[key](routeQueryValue);
 

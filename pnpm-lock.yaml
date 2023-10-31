@@ -21,8 +21,8 @@ dependencies:
     specifier: ^4.0.0
     version: 4.0.0
   use-query-sync-data:
-    specifier: 0.0.19-alpha
-    version: 0.0.19-alpha(typescript@5.2.2)
+    specifier: 0.0.20-alpha
+    version: 0.0.20-alpha(typescript@5.2.2)
   vue:
     specifier: ^3.3.4
     version: 3.3.7(typescript@5.2.2)
@@ -5128,6 +5128,22 @@ packages:
       lodash-es: 4.17.21
       naive-ui: 2.35.0(vue@3.3.7)
       plop: 4.0.0
+      vue: 3.3.7(typescript@5.2.2)
+      vue-router: 4.2.5(vue@3.3.7)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - typescript
+    dev: false
+
+  /use-query-sync-data@0.0.20-alpha(typescript@5.2.2):
+    resolution: {integrity: sha512-kvyiIxQg7Cq3pQlHUTPLO6/cgXXM3cHNZvhk40x97Ffpx3Pi0VaTppaYaB4TtoeR6EeZxK+M5mnxrIpm1h7pjQ==}
+    dependencies:
+      '@vueuse/core': 10.5.0(vue@3.3.7)
+      dayjs: 1.11.10
+      lodash-es: 4.17.21
+      naive-ui: 2.35.0(vue@3.3.7)
+      plop: 4.0.0
+      use-query-sync-data: 0.0.19-alpha(typescript@5.2.2)
       vue: 3.3.7(typescript@5.2.2)
       vue-router: 4.2.5(vue@3.3.7)
     transitivePeerDependencies:
