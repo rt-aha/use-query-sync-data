@@ -134,6 +134,7 @@ const useQuerySyncData = (routerInstance: {
     const routeParams = computed(() => route.params);
 
     watch(() => [routeQuery.value, routeParams.value], () => {
+      console.log('watch');
       setDataFromQuery();
       execFuncWhenQueryChange();
     });

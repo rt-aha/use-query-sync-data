@@ -1,6 +1,6 @@
 {
   "name": "use-query-sync-data",
-  "version": "0.0.21-alpha",
+  "version": "1.0.0",
   "license": "ISC",
   "author": "Ray Tsai",
   "description": "A composition API that sync url query to data base on Vue3.",
@@ -25,6 +25,17 @@
   },
   "files": [
     "dist"
+  ],
+  "keywords": [
+    "vue",
+    "vue3",
+    "url",
+    "query",
+    "querystring",
+    "sync",
+    "data",
+    "composable",
+    "hook"
   ],
   "scripts": {
     "dev": "vite",

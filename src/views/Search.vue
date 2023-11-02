@@ -138,7 +138,7 @@ type QueryData = typeof defaultQueryData;
 
 const rules: Rules<QueryData> = {
   inputValue: (val) => {
-    // console.log('val...inputValue', val);
+    // check is inputValue exist
     if (val) {
       return true;
     }
@@ -146,35 +146,29 @@ const rules: Rules<QueryData> = {
     return false;
   },
   selectValue: (val) => {
-    // console.log('val...selectValue', val);
+    // check is item in the valid
     if (opts.includes(val)) {
       return true;
     }
 
     return false;
   },
+  checkboxGroupValue: (val) => {
+    // check is all the item in the option are valid.
+    if (langOpts.every(item => val.includes(item))) {
+      return true;
+    }
+
+    return false;
+  },
   radioValue: (val) => {
-    // console.log('val...radioValue', val);
+    // check is item in the valid
     if (langOpts.includes(val)) {
       return true;
     }
 
     return false;
   },
-  // person: (val) => {
-  //   // console.log('val...person', val);
-
-  //   return true;
-  // },
-  // switchValue: (val) => {
-  //   // console.log('val...switchValue', val);
-  //   return true;
-  // },
-
-  // checkboxGroupValue: (val) => {
-  //   // console.log('val...checkboxGroupValue', val);
-  //   return true;
-  // },
 };
 
 const queryChangeCallback = (newQueryData: QueryData) => {
