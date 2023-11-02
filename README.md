@@ -199,7 +199,7 @@ type: `Ref<T>` (T = what you pass into `defaultQueryData`)
 
 default: `{}`,
 
-The lastest data.
+The latest data.
 
 ### updateQueryData
 
